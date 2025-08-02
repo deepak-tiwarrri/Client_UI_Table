@@ -11,16 +11,28 @@ import {
 } from "lucide-react";
 
 interface TopBarProps {
-   onSearchChange:React.
+   onSearchChange: (val: string) => void;
+   onToggleSort: () => void;
 }
-const TopBar = ({ onSearchChange, onToggleSort }) => {
+
+const TopBar = ({ onSearchChange, onToggleSort }: TopBarProps) => {
    const [search, setSearch] = useState("");
 
-   const handleDebouncedSearch = debounce((val) => {
+   interface HandleDebouncedSearch {
+      (val: string): void;
+   }
+
+   const handleDebouncedSearch: HandleDebouncedSearch = debounce((val: string) => {
       onSearchChange(val);
    }, 300);
 
-   const handleSearchChange = (e) => {
+   interface SearchChangeEvent {
+      target: {
+         value: string;
+      };
+   }
+
+   const handleSearchChange = (e: SearchChangeEvent) => {
       const val = e.target.value;
       setSearch(val);
       handleDebouncedSearch(val);
